@@ -41,6 +41,7 @@ Interact with the application using the menu displayed.
 
 ## **Application Flow**
 Menu Options
+
 1: View seasonal flavors.
 
 2: View all flavors.
