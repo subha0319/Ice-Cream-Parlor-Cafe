@@ -121,29 +121,3 @@ def view_cart():
     cart_items = cursor.fetchall()
     conn.close()
     return cart_items
-
-"""from database import add_flavor
-
-# Add seasonal flavor
-add_flavor("Strawberry Cheesecake", True)  # Seasonal flavor
-# Add a regular flavor
-add_flavor("Vanilla", False)  # Not seasonal
-
-from database import add_ingredient
-
-# Add ingredients
-add_ingredient("Milk")
-add_ingredient("Sugar")
-add_ingredient("Chocolate Chips")
-
-from database import add_allergen
-
-# Add allergens
-add_allergen("Nuts")
-add_allergen("Dairy")
-
-from database import add_suggestion
-
-# Add a flavor suggestion
-add_suggestion("Chocolate Mint", "A chocolate mint flavor would be great for summer!")"""
-
