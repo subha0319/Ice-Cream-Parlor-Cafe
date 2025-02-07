@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  flavor-service:
+    build: ./flavor_service
+    ports:
+      - "5000:5000"
+  inventory-service:
+    build: ./inventory_service  # Create similar structure as flavor_service
+    ports:
+      - "5001:5000"             # Maps internal port 5000 to host 5001
+  order-service:
+    build: ./order_service      # Create similar structure as flavor_service
+    ports:
+      - "5002:5000"             # Maps internal port 5000 to host 5002
