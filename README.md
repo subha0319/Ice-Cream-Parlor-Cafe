@@ -1,154 +1,155 @@
 # Ice-Cream-Parlor-Cafe
-Welcome to the Ice Cream Cafe project! This repository contains the code and configuration files for running the Ice Cream Cafe application using Docker.
+
+Welcome to the **Ice Cream Cafe** project! This repository now contains a modern microservices implementation of the Ice Cream Cafe application, with each service containerized using Docker and orchestrated with Docker Compose.
 
 ## **Overview:**
-This application simulates an ice cream parlor's operations. It is a CLI-based application containerized with Docker.
+The application simulates an ice cream parlor's operations through a set of independent microservices. Each service is built with Flask and handles a specific domain:
+
+- **Flavor Service:** Manages flavors and customer suggestions.
+- **Inventory Service:** Manages inventory, ingredients, and allergens.
+- **Order Service:** Manages customer orders (cart operations).
+
+## **Structure**
+
+      Ice-Cream-Parlor-Cafe/
+        ├── docker-compose.yml
+        ├── README.md
+        ├── main.py
+        ├── requirments.txt
+        ├── flavor_service/
+        │   ├── app.py
+        │   ├── database.py
+        │   ├── requirements.txt
+        │   └── Dockerfile
+        ├── inventory_service/
+        │   ├── app.py
+        │   ├── database.py
+        │   ├── requirements.txt
+        │   └── Dockerfile
+        └── order_service/
+            ├── app.py
+            ├── database.py
+            ├── requirements.txt
+            └── Dockerfile
 
 ## **Features:**
-1. View Seasonal Flavors: Displays a list of all seasonal flavors.
-2. View All Flavors: Shows all available flavors.
-3. View Ingredients: Lists all ingredients used in the ice cream parlor.
-4. View Allergens: Displays allergens associated with ingredients.
-5. Add to Cart: Allows users to add flavors to their cart.
-6. View Cart: Displays items in the user's cart.
-7. Submit Suggestions: Users can suggest new flavors with comments.
-8. Add Allergens: Users can add new allergens.
-9. Exit: Gracefully exits the application.
+- **Flavor Service:**
+  - View all flavors.
+  - View seasonal flavors.
+  - Add a new flavor.
+  - Submit flavor suggestions.
+  
+- **Inventory Service:**
+  - View current inventory.
+  - Update inventory for flavors.
+  - Manage ingredients and allergens.
+  
+- **Order Service:**
+  - Create new orders.
+  - View all orders.
 
 ## **Setup and Installation:**
 
-**Pre-requisites:**
-- Docker installed on your machine. Download Docker from https://www.docker.com/products/docker-desktop/ and follow the installation steps.
+### **Pre-requisites:**
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed on your machine.
 - Basic knowledge of command-line tools.
+- (Optional) [Postman](https://www.postman.com/downloads/) for testing the REST APIs.
 
-**Steps to Run the Application:**
+### **Steps to Run the Application:**
 
-- **Clone this repository:**
+1. **Clone this Repository:**
 
-git clone https://github.com/subha0319/Ice-Cream-Parlor-Cafe
+   ```cmd
+   git clone https://github.com/subha0319/Ice-Cream-Parlor-Cafe.git
+   cd Ice-Cream-Parlor-Cafe
 
-cd IceCreamCafe
+2. **Build and Run the Microservices with Docker Compose:**
 
-- **Build the Docker image:**
+    ```cmd
+    docker-compose up --build
 
-docker build -t ice-cream-cafe .
+This command builds and starts all three services:
 
-- **Run the Docker container with interactive mode:**
+- **Flavor Service** on port 5000
+- **Inventory Service** on port 5001
+- **Order Service** on port 5002
 
-docker run -it -p 5000:5000 ice-cream-cafe
+---
 
-Interact with the application using the menu displayed.
+## **Testing the Services**
+
+You can test the REST API endpoints using your web browser or Postman:
+
+### **Flavor Service Endpoints:**
+- `GET http://localhost:5000/flavors` – **Retrieve all flavors**.
+- `POST http://localhost:5000/flavors` – **Add a new flavor** (provide a JSON payload, e.g., `{ "name": "Mint", "seasonal": false }`).
+- `POST http://localhost:5000/suggestions` – **Submit a flavor suggestion** (if implemented as a separate endpoint).
+
+### **Inventory Service Endpoints:**
+- `GET http://localhost:5001/inventory` – **View current inventory**.
+- `PUT http://localhost:5001/inventory/<flavor>` – **Update inventory for a specific flavor** (provide a JSON payload, e.g., `{ "quantity": 30 }`).
+
+### **Order Service Endpoints:**
+- `GET http://localhost:5002/orders` – **Retrieve all orders**.
+- `POST http://localhost:5002/orders` – **Create a new order** (provide a JSON payload, e.g., `{ "flavor_id": 1, "quantity": 2 }`).
+
+---
 
 ## **Application Flow**
-Menu Options
 
-1: View seasonal flavors.
+Each microservice provides dedicated endpoints for its domain:
 
-2: View all flavors.
+### **Flavor Service:**
+- `GET /flavors`: **List all available flavors**.
+- `GET /flavors?seasonal=true`: **List seasonal flavors**.
+- `POST /flavors`: **Add a new flavor**.
+- `POST /suggestions`: **Submit a flavor suggestion**.
 
-3: View ingredients.
+### **Inventory Service:**
+- `GET /inventory`: **Retrieve inventory details**.
+- `PUT /inventory/{flavor}`: **Update stock quantity for a specific flavor**.
 
-4: View allergens.
+### **Order Service:**
+- `GET /orders`: **List all orders**.
+- `POST /orders`: **Create a new order**.
 
-5: Add a flavor to your cart.
-
-6: View your cart.
-
-7: Add a flavor suggestion.
-
-8: Add a new allergen.
-
-9: Exit.
+---
 
 ## **Testing the Application:**
 
-**Test steps to validate each feature:**
+### **Using Postman:**
 
-**Test 1: View Seasonal Flavors:**
+#### **Create a New Collection:**
+- **Organize** your API endpoints (e.g., "Ice Cream Cafe APIs").
 
-Select option 1 from the menu.
+#### **Add Requests for Each Endpoint:**
 
-**Output:**
+For the **Flavor Service**:
+- `GET`: `http://localhost:5000/flavors`
+- `POST`: `http://localhost:5000/flavors` (with a JSON body)
 
-A list of seasonal flavors:
-Seasonal Flavors:
-- Strawberry Cheesecake
+For the **Inventory Service**:
+- `GET`: `http://localhost:5001/inventory`
+- `PUT`: `http://localhost:5001/inventory/{flavor}`
 
-**Test 2: View All Flavors:**
+For the **Order Service**:
+- `GET`: `http://localhost:5002/orders`
+- `POST`: `http://localhost:5002/orders`
 
-Select option 2 from the menu.
+#### **Run Tests:**
+- Use **Postman's Collection Runner** or **Newman** to automate your API testing.
 
-**Output:**
-
-A list of all flavors:
-All Flavors:
-- Strawberry Cheesecake
-- Vanilla
-
-**Test 3: View Ingredients:**
-
-Select option 3 from the menu.
-
-**Output:**
-
-A list of all ingredients
-Ingredients:
-- Milk
-- Sugar
-- Chocolate Chips
-
-**Test 4: View Allergens:**
-
-Select option 4 from the menu.
-
-**Output:**
-
-A list of allergens:
-Allergens:
-- Nuts
-- Dairy
-
-**Test 5: Add to Cart:**
-
-Select option 5 from the menu.
-Enter the flavor name when prompted (e.g., Vanilla).
-
-**Output:**
-
-Confirmation message:
-Vanilla added to your cart.
-
-**Test 6: View Cart:**
-
-Select option 6 from the menu.
-
-**Output:**
-
-A list of items in the cart:
-Your Cart:
-- Vanilla
-
-**Test 7: Submit a Flavor Suggestion:**
-
-Select option 7 from the menu.
-Enter a flavor name and comment.
-
-**Output:**
-
-Confirmation message:
-Your suggestion for Mint Chocolate Chip has been added.
-
-**Test 8: Add a New Allergen:**
-
-Select option 8 from the menu.
-Enter an allergen name (e.g., Egg).
-
-**Output:**
-
-Confirmation message:
-Allergen 'Egg' added.
+---
 
 ## **Future Enhancements:**
-Convert CLI-based functionality into a REST API using Flask for web-based interaction.
-Implement user authentication for personalized experiences.
-Add functionality to delete items from the cart.
+
+- **Enhance error handling and validations**.
+- **Implement authentication and authorization** for secure access.
+- **Expand inter-service communication** (e.g., using message queues).
+- **Add functionality for updating and deleting entries**.
+- **Convert CLI-based features** into additional web-based interfaces.
+
+By following these instructions, you'll be able to run and test the Ice Cream Cafe application using a scalable microservices architecture. Enjoy exploring and enhancing the project!
+
+---
+
